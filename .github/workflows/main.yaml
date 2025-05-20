@@ -1,0 +1,85 @@
+name: Flutter CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - phase_1
+      - feature/**
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  flutter-ci:
+    name: Test, Lint, Build
+    runs-on: macos-latest # MacOS needed for iOS builds. For Android-only, you can use ubuntu-latest.
+
+    steps:
+      # Checkout code
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      # Set up Java for Android
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
+      # Set up Flutter SDK
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.29.3" # or your version
+          architecture: x64
+          channel: "stable"
+
+      # Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Static analysis
+      - name: Analyze project
+        run: flutter analyze || true
+
+      # Run unit/widget tests
+      # - name: Run tests
+      #   run: flutter test
+
+      # Build APK (Android)
+      - name: Build APK (Release)
+        run: flutter build apk --release --split-per-abi
+
+      # Build iOS (skip signing)
+      - name: Build iOS (.ipa without signing)
+        run: |
+          flutter build ios --release --no-codesign
+          cd build/ios/iphoneos
+          mkdir Payload
+          cd Payload
+          ln -s ../Runner.app
+          cd ..
+          zip -r app.ipa Payload
+
+      # Upload artifacts (APK & IPA)
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-builds
+          path: |
+            build/app/outputs/apk/release/*.apk
+            build/ios/iphoneos/app.ipa
+
+      # Optional GitHub Release
+      - name: Create GitHub Release
+        if: github.ref == 'refs/heads/main'
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: |
+            build/app/outputs/apk/release/*.apk
+            build/ios/iphoneos/app.ipa
+          tag: v1.0.${{ github.run_number }}
+          token: ${{ secrets.GH_PAT }}
