@@ -83,10 +83,11 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
 import 'dart:async';
-import 'package:bloc/bloc.dart';
+
 import 'package:codebase_project_assignment/core/platform/network_info.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 part 'connectivity_event.dart';

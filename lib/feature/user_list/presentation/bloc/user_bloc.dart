@@ -1,8 +1,8 @@
-import 'package:bloc/bloc.dart';
 import 'package:codebase_project_assignment/feature/user_list/domain/entity/user_entity.dart';
 import 'package:codebase_project_assignment/feature/user_list/domain/usecase/get_user_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';
