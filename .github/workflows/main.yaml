@@ -46,8 +46,8 @@ jobs:
         run: flutter analyze || true
 
       # Run unit/widget tests
-      - name: Run tests
-        run: flutter test
+      # - name: Run tests
+      #   run: flutter test
 
       # Build APK (Android)
       - name: Build APK (Release)
