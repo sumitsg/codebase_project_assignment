@@ -46,8 +46,10 @@ class UserListDatasourceImpl extends UserListDatasource {
       return users;
     } else {
       try {
-        final response = await client
-            .get(Uri.parse(ApiUrls.getUsersList(10, int.parse(pageNumber))));
+        final response = await client.get(
+          Uri.parse(ApiUrls.getUsersList(10, int.parse(pageNumber))),
+          headers: {"x-api-key": "reqres-free-v1"},
+        );
 
         if (ApiUrls.isSuccessful(response.statusCode)) {
           final userListModel =
