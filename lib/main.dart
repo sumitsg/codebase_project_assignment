@@ -9,6 +9,7 @@ import 'utils/injections_container.dart' as di;
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   di.init();
   // Initialize Hive
   await Hive.initFlutter();
