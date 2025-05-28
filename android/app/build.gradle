@@ -37,6 +37,26 @@ android {
             signingConfig = signingConfigs.debug
         }
     }
+
+    flavorDimensions "flavor-type"
+    productFlavors {
+        dev {
+            dimension "flavor-type"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+            resValue "string", "app_name", "Codebase Project Assignment Dev"
+        }
+        staging {
+            dimension "flavor-type"
+            applicationIdSuffix ".staging"
+            versionNameSuffix "-staging"
+            resValue "string", "app_name", "Codebase Project Assignment staging"
+        }
+        prod {
+            dimension "flavor-type"
+            resValue "string", "app_name", "Codebase Project"
+        }
+    }
 }
 
 flutter {
