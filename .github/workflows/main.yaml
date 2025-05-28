@@ -51,7 +51,8 @@ jobs:
 
       # Build APK (Android)
       - name: Build APK (Release)
-        run: flutter build apk --release --split-per-abi
+        # run: flutter build apk --flavor dev -t lib/main_dev.dart --release --split-per-abi
+        run: flutter build apk --flavor prod -t lib/main.dart --release --split-per-abi
 
       # Build iOS (skip signing)
       - name: Build iOS (.ipa without signing)
@@ -70,7 +71,7 @@ jobs:
         with:
           name: flutter-builds
           path: |
-            build/app/outputs/apk/release/*.apk
+            build/app/outputs/flutter-apk/release/*.apk
             build/ios/iphoneos/app.ipa
 
       # Optional GitHub Release
